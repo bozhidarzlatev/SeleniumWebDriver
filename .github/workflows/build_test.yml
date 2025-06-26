@@ -1,0 +1,30 @@
+name: Build and Test WebDriverDemo
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build_test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout the repostitory
+      uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build the project
+      run: dotnet build --no-restore
+    - name: Build UI test 1
+      run: dotnet test TestProject1 --no-build --verbosity normal
+    - name: Build UI test 2
+      run: dotnet test TestProject2 --no-build --verbosity normal
+    - name: Build UI test 3
+      run: dotnet test TestProject3 --no-build --verbosity normal
